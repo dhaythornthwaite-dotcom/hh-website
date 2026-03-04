@@ -1,249 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>H+H — Work</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{--red:#E8380D;--black:#0a0a0a;--off:#F7F4F0;}
-html{scroll-behavior:smooth;}
-body{font-family:'Syne',sans-serif;background:var(--off);color:var(--black);cursor:none;overflow-x:hidden;}
-#curDot,#curRing{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;}
-#curDot{width:8px;height:8px;background:currentColor;transform:translate(-50%,-50%);top:0;left:0;}
-#curRing{width:36px;height:36px;border:1.5px solid currentColor;transform:translate(-50%,-50%);top:0;left:0;transition:width .3s,height .3s;}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:28px 48px;}
-.nlogo{font-size:13px;font-weight:500;letter-spacing:.08em;color:var(--black);text-decoration:none;}
-.nback{font-size:14px;font-weight:400;letter-spacing:.04em;color:var(--black);text-decoration:none;opacity:.6;transition:opacity .3s;}
-.nback:hover{opacity:1;}
-nav.dark .nlogo,nav.dark .nback{color:var(--off);}
-.wh{height:100vh;background:var(--black);display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 64px;position:relative;overflow:hidden;}
-.wh-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.4;}
-.wh-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;}
-.wh-meta{display:flex;gap:40px;margin-bottom:32px;opacity:.6;position:relative;}
-.wh-meta span{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--off);}
-.wh-title{font-size:clamp(64px,11vw,160px);font-weight:400;color:var(--off);line-height:.92;letter-spacing:-.045em;text-transform:uppercase;position:relative;}
-.wi{padding:120px 48px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;background:var(--off);}
-.wi-desc{font-size:clamp(20px,2.8vw,38px);font-weight:400;line-height:1.25;letter-spacing:-.02em;}
-.wi-details{display:flex;flex-direction:column;gap:32px;padding-top:8px;}
-.wi-detail-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.4;margin-bottom:8px;}
-.wi-detail-value{font-size:15px;font-weight:400;line-height:1.6;}
-.ws{padding:80px 48px;background:var(--off);}
-.ws-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.4;margin-bottom:24px;}
-.ws-text{font-size:clamp(18px,2.2vw,28px);font-weight:400;line-height:1.5;letter-spacing:-.01em;max-width:800px;}
-.wdiv{height:1px;background:rgba(0,0,0,.1);margin:0 48px;}
-.wgallery{background:var(--black);padding:4px 0;}
-.wgallery-grid{display:flex;flex-direction:column;gap:4px;}
-.wgallery-row{display:grid;gap:4px;}
-.wgallery-row.single{grid-template-columns:1fr;}
-.wgallery-row.double{grid-template-columns:1fr 1fr;}
-.wgallery-row.triple{grid-template-columns:1fr 1fr 1fr;}
-.wgallery-row img,.wgallery-row video{width:100%;display:block;object-fit:cover;aspect-ratio:4/3;}
-.wgallery-row.single img,.wgallery-row.single video{aspect-ratio:16/9;}
-.wgallery-row video{background:#000;}
-.wnext{background:var(--black);padding:120px 48px;border-top:1px solid rgba(255,255,255,.08);}
-.wnext-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--off);opacity:.4;margin-bottom:60px;}
-.wnext-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
-.wnext-item a{display:block;text-decoration:none;position:relative;overflow:hidden;}
-.wnext-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;filter:brightness(.5);transition:filter .6s;}
-.wnext-item:hover .wnext-img{filter:brightness(.75);}
-.wnext-info{position:absolute;bottom:0;left:0;right:0;padding:32px;background:linear-gradient(transparent,rgba(0,0,0,.7));}
-.wnext-name{font-size:clamp(20px,3vw,36px);font-weight:400;color:var(--off);letter-spacing:-.03em;text-transform:uppercase;line-height:1;}
-.wnext-type{font-size:12px;color:var(--off);opacity:.6;margin-top:8px;letter-spacing:.06em;}
-footer{background:var(--black);padding:40px 48px;border-top:1px solid rgba(255,255,255,.08);}
-.footer-inner{display:flex;justify-content:space-between;align-items:center;}
-.footer-copy{font-size:12px;color:var(--off);opacity:.4;letter-spacing:.06em;}
-.footer-back{font-size:12px;color:var(--off);opacity:.6;text-decoration:none;letter-spacing:.06em;transition:opacity .3s;}
-.footer-back:hover{opacity:1;}
-.fade-up{opacity:0;transform:translateY(30px);transition:opacity .9s,transform .9s cubic-bezier(.16,1,.3,1);}
-.fade-up.vis{opacity:1;transform:none;}
-@media(max-width:768px){
-  nav{padding:20px 24px;}
-  .wh{padding:0 24px 48px;}
-  .wi{grid-template-columns:1fr;padding:60px 24px;gap:40px;}
-  .ws{padding:60px 24px;}
-  .wdiv{margin:0 24px;}
-  .wnext{padding:60px 24px;}
-  .wnext-grid{grid-template-columns:1fr;}
-  footer{padding:32px 24px;}
-}
-</style>
-</head>
-<body>
-<div id="curDot"></div>
-<div id="curRing"></div>
-<nav id="nav">
-  <a href="/" class="nlogo">H+H</a>
-  <a href="/#works" class="nback">← Back to works</a>
-</nav>
-<main id="main"></main>
-<script>
-const PROJECTS={
-  'ministry-of-sound':{
-    title:'Ministry\nof Sound',type:'Brand Identity · Art Direction',year:'2023',
-    heroImg:'images/works/Ministry of Sound/Ministry of Sound 1.jpg',
-    description:'A complete brand identity system for one of the world\'s most iconic music institutions. Balancing heritage with modernity to create a visual language that speaks to both long-time fans and new audiences.',
-    challenge:'Ministry of Sound is a globally recognised name in electronic music. The challenge was evolving the brand while honouring its storied history — creating something fresh and forward-thinking without losing the equity built over decades.',
-    outcome:'A refined brand system with a bold typographic identity, a disciplined colour palette, and a flexible grid system that works across digital, print, and environmental applications.',
-    delivered:['Brand Identity','Art Direction','Visual System'],
-    media:[
-      {type:'single',kind:'img',src:'Ministry of Sound/Ministry of Sound 1.jpg'},
-      {type:'double',kind:'img',src:'Ministry of Sound/Ministry of Sound 2.jpg',src2:'Ministry of Sound/Ministry of Sound 3.jpg'},
-      {type:'single',kind:'img',src:'Ministry of Sound/Ministry of Sound 4.jpg'},
-      {type:'triple',kind:'img',src:'Ministry of Sound/Speaker render.7.jpg',src2:'Ministry of Sound/Speaker render.18.jpg',src3:'Ministry of Sound/Speaker render.19.jpg'},
-    ]
-  },
-  'furf':{
-    title:'FURF',type:'Brand Strategy · Identity · Digital',year:'2023',
-    heroImg:'images/works/FURF/FURF1.jpg',
-    description:'Full brand strategy and identity design for FURF — a bold, characterful brand built for the modern consumer. From strategy through to execution across all touchpoints.',
-    challenge:'FURF needed a brand that could stand out in a crowded market while remaining authentic to its founders\' vision. The challenge was distilling a complex personality into a coherent, memorable visual identity.',
-    outcome:'A distinctive brand system anchored by a strong wordmark, a vibrant colour palette and a flexible design language that extends naturally across packaging, digital and campaigns.',
-    delivered:['Brand Strategy','Identity Design','Packaging','Digital Design'],
-    media:[
-      {type:'single',kind:'img',src:'FURF/FURF1.jpg'},
-      {type:'double',kind:'img',src:'FURF/FURF2.jpg',src2:'FURF/FURF3.jpg'},
-      {type:'double',kind:'img',src:'FURF/FURF4.jpg',src2:'FURF/FURF5.jpg'},
-      {type:'single',kind:'img',src:'FURF/FURF6.jpg'},
-      {type:'double',kind:'img',src:'FURF/FURF7.jpg',src2:'FURF/FURF8.jpg'},
-      {type:'double',kind:'img',src:'FURF/FURF9.jpg',src2:'FURF/FURF10.jpg'},
-      {type:'double',kind:'img',src:'FURF/22.jpg',src2:'FURF/23.jpg'},
-      {type:'single',kind:'vid',src:'FURF/InstaS - Overhead B.mp4'},
-      {type:'double',kind:'img',src:'FURF/Furf-x-Dulux.jpg',src2:'FURF/Furf-x-Dulux-2.jpg'},
-      {type:'triple',kind:'img',src:'FURF/Furf-x-Dulux-3.jpg',src2:'FURF/Furf-x-Dulux-4.jpg',src3:'FURF/Furf-x-Dulux-5.jpg'},
-      {type:'single',kind:'vid',src:'FURF/InstaS - Overhead C.mp4'},
-      {type:'single',kind:'img',src:'FURF/Furf-x-Dulux-6.jpg'},
-    ]
-  },
-  'airbnb':{
-    title:'Airbnb',type:'Campaign · Art Direction',year:'2022',
-    heroImg:'images/works/AIRBNB/DOOR SYSTEM HANDLE in location.bip.35.jpg',
-    description:'Art direction for an Airbnb campaign exploring the relationship between design, architecture and the spaces we inhabit. A study in materiality and human experience.',
-    challenge:'Communicating the warmth and uniqueness of individual spaces through a cohesive visual campaign — finding the humanity in architectural detail.',
-    outcome:'A campaign series built around intimate, considered photography that celebrates the details that make a space feel like home.',
-    delivered:['Campaign Design','Art Direction','Photography Direction'],
-    media:[
-      {type:'single',kind:'img',src:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.35.jpg'},
-      {type:'double',kind:'img',src:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.36.jpg',src2:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.37.jpg'},
-      {type:'double',kind:'img',src:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.38.jpg',src2:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.39.jpg'},
-      {type:'double',kind:'img',src:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.40.jpg',src2:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.41.jpg'},
-      {type:'triple',kind:'img',src:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.42.jpg',src2:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.43.jpg',src3:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.44.jpg'},
-      {type:'single',kind:'img',src:'AIRBNB/DOOR SYSTEM HANDLE in location.bip.45.jpg'},
-    ]
-  },
-  'selecon':{
-    title:'Selecon',type:'Brand Identity · Visual Design',year:'2022',
-    heroImg:'images/works/Selecon/Selecon Light Projection.jpg',
-    description:'Visual identity and design work for Selecon, exploring the intersection of light, space and brand. A project that bridges technical precision with artistic expression.',
-    challenge:'Translating the technical sophistication of lighting design into a brand language that is both visually compelling and communicates expertise and craft.',
-    outcome:'A refined identity system that uses light itself as a design element — sophisticated, precise and deeply connected to the core product.',
-    delivered:['Brand Identity','Visual Design','Art Direction'],
-    media:[
-      {type:'single',kind:'img',src:'Selecon/Selecon Light Projection.jpg'},
-      {type:'double',kind:'img',src:'Selecon/SELECON PROFILE.15.33.jpg',src2:'Selecon/SELECON PROFILE.15.171.jpg'},
-      {type:'single',kind:'vid',src:'Selecon/SELECON PROFILE.15.mp4'},
-      {type:'double',kind:'img',src:'Selecon/Slecon Light Projection 2.jpg',src2:'Selecon/Selecon Light Sprectrum.jpg'},
-    ]
-  },
-  'tend':{
-    title:'TEND',type:'Brand Identity · Packaging',year:'2023',
-    heroImg:'images/works/TEND/1.jpg',
-    description:'Brand identity and packaging design for TEND — a considered approach to building a brand that feels both premium and approachable. Every detail crafted with intent.',
-    challenge:'Creating a brand identity that communicates quality and care while remaining accessible. The packaging needed to stand out on shelf while feeling considered and intentional.',
-    outcome:'A cohesive brand world with a clean typographic identity, a carefully curated colour palette and packaging that communicates the brand\'s values at every touchpoint.',
-    delivered:['Brand Identity','Packaging Design','Art Direction'],
-    media:[
-      {type:'single',kind:'img',src:'TEND/1.jpg'},
-      {type:'double',kind:'img',src:'TEND/2.jpg',src2:'TEND/3.jpg'},
-      {type:'double',kind:'img',src:'TEND/4.jpg',src2:'TEND/5.jpg'},
-      {type:'single',kind:'vid',src:'TEND/0001-0090.mp4'},
-      {type:'single',kind:'img',src:'TEND/6.jpg'},
-      {type:'double',kind:'img',src:'TEND/9.jpg',src2:'TEND/10.jpg'},
-      {type:'single',kind:'vid',src:'TEND/2.mp4'},
-      {type:'double',kind:'img',src:'TEND/12.jpg',src2:'TEND/13.jpg'},
-      {type:'triple',kind:'img',src:'TEND/14.jpg',src2:'TEND/15.jpg',src3:'TEND/16.jpg'},
-      {type:'single',kind:'vid',src:'TEND/0001-0150.mp4'},
-      {type:'double',kind:'img',src:'TEND/18.jpg',src2:'TEND/19.jpg'},
-      {type:'double',kind:'img',src:'TEND/21.jpg',src2:'TEND/image.jpg'},
-    ]
-  },
-  'uncle-2':{
-    title:'UNCLE 2',type:'Brand Identity · Campaign',year:'2024',
-    heroImg:'images/works/UNCLE 2/Amphipods00001.jpeg',
-    description:`AMPHIPODS<br><br>Born between land and water.<br>Between structure and movement.<br>Between organism and object.<br><br>AMPHIPODS are not decorative pieces — they are adaptive forms.<br>Objects designed to inhabit multiple states, multiple environments, multiple interpretations.<br><br>Like their biological namesake, they are low to the ground, structurally efficient, and quietly powerful.<br>Each piece feels as though it evolved rather than was drawn.<br><br>Part furniture.<br>Part terrain.<br>Part creature.<br><br>They don’t sit in a space.<br>They alter it.`,
-    challenge:`To design objects that refuse a single identity.<br><br>Most furniture is static — defined by category, by posture, by expectation. Chair. Table. Bench. Light.<br><br>The challenge was to create a series that behaves more like a living system than a product line.<br>Low, grounded, structural forms that feel inevitable — as if erosion, pressure, and adaptation shaped them over time.<br><br>How do you design something that feels ancient and futuristic at once?<br>Heavy, yet agile.<br>Architectural, yet organic.<br><br>How do you remove excess until only structural truth remains — without losing emotion?<br><br>AMPHIPODS began there.`,
-    outcome:`A collection of grounded, elemental objects that feel discovered rather than manufactured.<br><br>Each piece sits close to the earth, anchored and stable, yet visually mobile — ready to shift, cluster, or adapt.<br><br>Materials are honest.<br>Geometry is efficient.<br>Weight is intentional.<br><br>AMPHIPODS introduce a new posture to interior space — lower, slower, more connected to ground and gravity.<br><br>They create atmosphere through mass and restraint.<br>They invite use without demanding attention.<br><br>Not furniture as ornament.<br>Furniture as organism.`,
-    delivered:['Brand Identity','Campaign Design','Art Direction'],
-    media:[{type:'single',kind:'img',src:'UNCLE 2/Amphipods00001.jpeg'},{type:'double',kind:'img',src:'UNCLE 2/Amphipods00002.jpeg',src2:'UNCLE 2/Amphipods00003.jpeg'},{type:'single',kind:'img',src:'UNCLE 2/Amphipods00004.jpeg'}]
-  },
-  'twist':{
-    title:'TWIST',type:'Brand Identity · 3D Design',year:'2024',
-    heroImg:'images/works/TWIST/LED LIGHT V1.bip.16.jpg',
-    description:'A bold brand identity and 3D design project for TWIST — pushing the boundaries of light, form and identity. Where physical craft meets digital precision.',
-    challenge:'Creating a brand identity rooted in the physical properties of light and form. The challenge was translating the dynamic, sculptural nature of the product into a coherent visual language.',
-    outcome:'A striking visual identity that celebrates the interplay between light and geometry, with 3D rendered assets that bring the brand to life across all touchpoints.',
-    delivered:['Brand Identity','3D Design','Art Direction'],
-    media:[
-      {type:'single',kind:'img',src:'TWIST/LED LIGHT V1.bip.16.jpg'},
-      {type:'double',kind:'img',src:'TWIST/LED LIGHT V1.bip.24.jpg',src2:'TWIST/LED LIGHT V1.bip.25.jpg'},
-      {type:'double',kind:'img',src:'TWIST/LED LIGHT V1.bip.26.jpg',src2:'TWIST/LED LIGHT V1.bip.27.jpg'},
-    ]
-  }
-};
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'">
+    <title>Site not found &middot; GitHub Pages</title>
+    <style type="text/css" media="screen">
+      body {
+        background-color: #f1f1f1;
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
 
-function renderMedia(item,folder){
-  if(item.kind==='vid'){
-    return `<video autoplay muted loop playsinline><source src="images/works/${item.src}" type="video/mp4"></video>`;
-  }
-  const srcs=[item.src,item.src2,item.src3].filter(Boolean);
-  return srcs.map(s=>`<img src="images/works/${s}" alt="" loading="lazy">`).join('');
-}
+      .container { margin: 50px auto 40px auto; width: 600px; text-align: center; }
 
-const slug=new URLSearchParams(location.search).get('p');
-const project=PROJECTS[slug];
-if(!project){
-  document.getElementById('main').innerHTML='<div style="padding:200px 48px;text-align:center"><p style="font-size:24px">Project not found. <a href="/">← Back home</a></p></div>';
-}else{
-  document.title='H+H — '+project.title.replace('\n',' ');
-  const nextProjects=Object.entries(PROJECTS).filter(([k])=>k!==slug).slice(0,2);
-  const mediaRows=project.media.map(item=>`<div class="wgallery-row ${item.type} fade-up">${renderMedia(item)}</div>`).join('');
-  const nextItems=nextProjects.map(([k,p])=>`<div class="wnext-item"><a href="work.html?p=${k}"><img class="wnext-img" src="${p.heroImg}" alt="${p.title}"><div class="wnext-info"><div class="wnext-name">${p.title.replace('\n','<br>')}</div><div class="wnext-type">${p.type}</div></div></a></div>`).join('');
-  document.getElementById('main').innerHTML=
-    `<section class="wh"><div class="wh-bg" style="background-image:url('${project.heroImg}')"></div><div class="wh-meta"><span>${project.type}</span><span>${project.year}</span></div><h1 class="wh-title">${project.title.replace('\n','<br>')}</h1></section>
-    <section class="wi"><p class="wi-desc fade-up">${project.description}</p><div class="wi-details fade-up"><div class="wi-detail-block"><div class="wi-detail-label">Delivered</div><div class="wi-detail-value">${project.delivered.join('<br>')}</div></div><div class="wi-detail-block"><div class="wi-detail-label">Year</div><div class="wi-detail-value">${project.year}</div></div><div class="wi-detail-block"><div class="wi-detail-label">Category</div><div class="wi-detail-value">${project.type}</div></div></div></section>
-    <div class="wdiv"></div>
-    <section class="ws"><div class="ws-label">The Challenge</div><p class="ws-text fade-up">${project.challenge}</p></section>
-    <div class="wdiv"></div>
-    <section class="ws"><div class="ws-label">The Outcome</div><p class="ws-text fade-up">${project.outcome}</p></section>
-    <section class="wgallery"><div class="wgallery-grid">${mediaRows}</div></section>
-    <section class="wnext"><div class="wnext-label">View Another Project</div><div class="wnext-grid">${nextItems}</div></section>
-    <footer><div class="footer-inner"><span class="footer-copy">H+H © 2024</span><a href="/" class="footer-back">← Back to home</a></div></footer>`;
-  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});},{threshold:0.05});
-  document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-}
+      a { color: #4183c4; text-decoration: none; }
+      a:hover { text-decoration: underline; }
 
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>{nav.classList.toggle('dark',window.scrollY<window.innerHeight*.8);},{passive:true});
-nav.classList.add('dark');
+      h1 { width: 800px; position:relative; left: -100px; letter-spacing: -1px; line-height: 60px; font-size: 60px; font-weight: 100; margin: 0px 0 50px 0; text-shadow: 0 1px 0 #fff; }
+      p { color: rgba(0, 0, 0, 0.5); margin: 20px 0; line-height: 1.6; }
 
-const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
-let mx=-100,my=-100,rx=-100,ry=-100,ca=false;
-dot.style.color='#E8380D'; ring.style.color='#E8380D';
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(!ca){ca=true;dot.style.opacity='1';ring.style.opacity='1';}});
-function updateCursorColor(){
-  let el=document.elementFromPoint(mx,my);
-  let bg='rgba(0,0,0,0)';
-  while(el&&el!==document.body){bg=window.getComputedStyle(el).backgroundColor;if(bg&&bg!=='rgba(0,0,0,0)'&&bg!=='transparent')break;el=el.parentElement;}
-  if(!bg||bg==='rgba(0,0,0,0)')bg=window.getComputedStyle(document.body).backgroundColor;
-  const m=bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  const isRed=m&&parseInt(m[1])>180&&parseInt(m[2])<100&&parseInt(m[3])<80;
-  dot.style.color=isRed?'#F7F4F0':'#E8380D';
-  ring.style.color=isRed?'#F7F4F0':'#E8380D';
-}
-(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;dot.style.left=mx+'px';dot.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';updateCursorColor();requestAnimationFrame(loop);})();
-</script>
-</body>
+      ul { list-style: none; margin: 25px 0; padding: 0; }
+      li { display: table-cell; font-weight: bold; width: 1%; }
+
+      .logo { display: inline-block; margin-top: 35px; }
+      .logo-img-2x { display: none; }
+      @media
+      only screen and (-webkit-min-device-pixel-ratio: 2),
+      only screen and (   min--moz-device-pixel-ratio: 2),
+      only screen and (     -o-min-device-pixel-ratio: 2/1),
+      only screen and (        min-device-pixel-ratio: 2),
+      only screen and (                min-resolution: 192dpi),
+      only screen and (                min-resolution: 2dppx) {
+        .logo-img-1x { display: none; }
+        .logo-img-2x { display: inline-block; }
+      }
+
+      #suggestions {
+        margin-top: 35px;
+        color: #ccc;
+      }
+      #suggestions a {
+        color: #666666;
+        font-weight: 200;
+        font-size: 14px;
+        margin: 0 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+
+      <h1>404</h1>
+      <p><strong>There isn't a GitHub Pages site here.</strong></p>
+
+      <p>
+        If you're trying to publish one,
+        <a href="https://help.github.com/pages/">read the full documentation</a>
+        to learn how to set up <strong>GitHub Pages</strong>
+        for your repository, organization, or user account.
+      </p>
+
+      <div id="suggestions">
+        <a href="https://githubstatus.com">GitHub Status</a> &mdash;
+        <a href="https://twitter.com/githubstatus">@githubstatus</a>
+      </div>
+
+      <a href="/" class="logo logo-img-1x">
+        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMTZCRDY3REIzRjAxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMTZCRDY3RUIzRjAxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdCQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjdDQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+SM9MCAAAA+5JREFUeNrEV11Ik1EY3s4+ddOp29Q5b0opCgKFsoKoi5Kg6CIhuwi6zLJLoYLopq4qsKKgi4i6CYIoU/q5iDAKs6syoS76IRWtyJ+p7cdt7sf1PGOD+e0c3dygAx/67ZzzPM95/877GYdHRg3ZjMXFxepQKNS6sLCwJxqNNuFpiMfjVs4ZjUa/pmmjeD6VlJS8NpvNT4QQ7mxwjSsJiEQim/1+/9lgMHgIr5ohuxG1WCw9Vqv1clFR0dCqBODElV6v90ogEDjGdYbVjXhpaendioqK07CIR7ZAqE49PT09BPL2PMgTByQGsYiZlQD4uMXtdr+JxWINhgINYhGT2MsKgMrm2dnZXgRXhaHAg5jEJodUAHxux4LudHJE9RdEdA+i3Juz7bGHe4mhE9FNrgwBCLirMFV9Okh5eflFh8PR5nK5nDabrR2BNJlKO0T35+Li4n4+/J+/JQCxhmu5h3uJoXNHPbmWZAHMshWB8l5/ipqammaAf0zPDDx1ONV3vurdidqwAQL+pEc8sLcAe1CCvQ3YHxIW8Pl85xSWNC1hADDIv0rIE/o4J0k3kww4xSlwIhcq3EFFOm7KN/hUGOQkt0CFa5WpNJlMvxBEz/IVQAxg/ZRZl9wiHA63yDYieM7DnLP5CiAGsC7I5sgtYKJGWe2A8seFqgFJrJjEPY1Cn3pJ8/9W1e5VWsFDTEmFrBcoDhZJEQkXuhICMyKpjhahqN21hRYATKfUOlDmkygrR4o4C0VOLGJKrOITKB4jijzdXygBKixyC5TDQdnk/Pz8qRw6oOWGlsTKGOQW6OH6FBWsyePxdOXLTgxiyebILZCjz+GLgMIKnXNzc49YMlcRdHXcSwxFVgTInQhC9G33UhNoJLuqq6t345p9y3eUy8OTk5PjAHuI9uo4b07FBaOhsu0A4Unc+T1TU1Nj3KsSSE5yJ65jqF2DDd8QqWYmAZrIM2VlZTdnZmb6AbpdV9V6ec9znf5Q7HjYumdRE0JOp3MjitO4SFa+cZz8Umqe3TCbSLvdfkR/kWDdNQl5InuTcysOcpFT35ZrbBxx4p3JAHlZVVW1D/634VRt+FvLBgK/v5LV9WS+10xMTEwtRw7XvqOL+e2Q8V3AYIOIAXQ26/heWVnZCVfcyKHg2CBgTpmPmjYM8l24GyaUHyaIh7XwfR9ErE8qHoDfn2LTNAVC0HX6MFcBIP8Bi+6F6cdW/DICkANRfx99fEYFQ7Nph5i/uQiA214gno7K+guhaiKg9gC62+M8eR7XsBsYJ4ilam60Fb7r7uAj8wFyuwM1oIOWgfmDy6RXEEQzJMPe23DXrVS7rtyD3Df8z/FPgAEAzWU5Ku59ZAUAAAAASUVORK5CYII=">
+      </a>
+
+      <a href="/" class="logo logo-img-2x">
+        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEQUM1QkUxRUI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEQUM1QkUxRkI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdGQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjgwQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+hfPRaQAAB6lJREFUeNrsW2mM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">
+      </a>
+    </div>
+  </body>
 </html>
