@@ -1,403 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>H+H — Strategic Branding & Creative Agency</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{--red:#E8380D;--black:#0a0a0a;--nqw:#F7F6F4;--nqb:#1c1c1c;--font:'Syne',sans-serif;}
-html{overflow-x:hidden;scroll-behavior:smooth;}
-body{font-family:var(--font);background:var(--black);color:var(--nqw);overflow-x:hidden;cursor:none;}
-.cur{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
-#curDot{width:12px;height:12px;background:currentColor;z-index:9999;transition:width .25s,height .25s,background .2s;opacity:0;}
-#curRing{width:36px;height:36px;border:1.5px solid currentColor;z-index:9998;transition:width .35s,height .35s,opacity .3s;opacity:0;}
-body.chover #curDot{width:40px;height:40px;background:transparent;border:2px solid #fff;}
-body.chover #curRing{width:0;height:0;opacity:0;}
-#menuWrap{position:fixed;inset:0;z-index:500;display:flex;visibility:hidden;}
-#menuLeft{width:50%;background:var(--black);display:flex;flex-direction:column;justify-content:center;padding:100px 6%;transform:translateX(-100%);transition:transform .7s cubic-bezier(.76,0,.24,1);}
-#menuRight{width:50%;background:var(--nqw);display:flex;flex-direction:column;justify-content:space-between;padding:100px 6%;transform:translateX(100%);transition:transform .7s cubic-bezier(.76,0,.24,1);}
-#menuWrap.open{visibility:visible;}
-#menuWrap.open #menuLeft,#menuWrap.open #menuRight{transform:none;}
-#menuBar{position:fixed;top:0;left:0;right:0;z-index:600;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;opacity:0;pointer-events:none;transition:opacity .3s;}
-#menuBar.vis{opacity:1;pointer-events:all;}
-.mbar-logo{font-size:27px;font-weight:400;color:#fff;text-decoration:none;}
-#menuCloseBtn{font-size:clamp(33px,4.2vw,57px);font-weight:400;color:var(--nqb);background:none;border:none;cursor:none;font-family:var(--font);letter-spacing:-0.01em;}
-.mlink-mask{overflow:hidden;padding:2px 0;}
-.mlink{display:block;font-size:clamp(40px,6vw,80px);font-weight:400;color:var(--nqw);text-decoration:none;line-height:1.05;letter-spacing:-0.03em;transform:translateY(110%);transition:transform .6s cubic-bezier(.76,0,.24,1),opacity .3s;}
-#menuWrap.open .mlink{transform:none;}
-#menuWrap.open .mlink-mask:nth-child(1) .mlink{transition-delay:.12s;}
-#menuWrap.open .mlink-mask:nth-child(2) .mlink{transition-delay:.17s;}
-#menuWrap.open .mlink-mask:nth-child(3) .mlink{transition-delay:.22s;}
-#menuWrap.open .mlink-mask:nth-child(4) .mlink{transition-delay:.27s;}
-#menuWrap.open .mlink-mask:nth-child(5) .mlink{transition-delay:.32s;}
-#menuLeft:hover .mlink{opacity:.25;}
-#menuLeft:hover .mlink:hover{opacity:1;}
-.mr-top{display:flex;flex-direction:column;gap:8px;}
-.mr-top a,.mr-top p{font-size:15px;color:var(--nqb);text-decoration:none;}
-.mr-top a:hover{text-decoration:underline;}
-.mr-sm{overflow:hidden;padding:2px 0;}
-.mr-sl{display:block;font-size:clamp(18px,2vw,28px);font-weight:400;color:var(--nqb);text-decoration:none;line-height:1.4;letter-spacing:.02em;transform:translateY(110%);transition:transform .5s cubic-bezier(.76,0,.24,1),opacity .3s;}
-#menuWrap.open .mr-sl{transform:none;}
-#menuWrap.open .mr-sm:nth-child(1) .mr-sl{transition-delay:.22s;}
-#menuWrap.open .mr-sm:nth-child(2) .mr-sl{transition-delay:.27s;}
-#menuWrap.open .mr-sm:nth-child(3) .mr-sl{transition-delay:.32s;}
-#menuRight:hover .mr-sl{opacity:.3;}
-#menuRight:hover .mr-sl:hover{opacity:1;}
-.mr-copy{font-size:12px;color:rgba(28,28,28,.35);letter-spacing:.05em;margin-top:16px;}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;pointer-events:none;}
-.nav-logo{display:flex;align-items:center;text-decoration:none;pointer-events:all;}.logo-img{height:clamp(28px,3.8vw,52px);width:auto;display:block;transition:filter .4s;filter:brightness(0) invert(1);}#mainNav.on-light .logo-img{filter:brightness(0) invert(0);}
-#menuOpenBtn{font-size:clamp(33px,4.2vw,57px);font-weight:400;color:#fff;background:none;border:none;cursor:none;pointer-events:all;font-family:var(--font);letter-spacing:-0.01em;transition:color .3s;}
-nav.dark .nav-logo,nav.dark #menuOpenBtn{color:var(--nqb);}
-#hero{height:100vh;min-height:600px;background:#E8380D;animation:heroMorph 20s ease-in-out infinite;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 52px;overflow:hidden;}
-.hero-mask{overflow:hidden;}
-.hero-txt{font-size:clamp(46px,6.6vw,88px);font-weight:400;color:var(--nqw);line-height:1.1;letter-spacing:-0.02em;}
-#intro{background:var(--nqw);padding:80px 5% 100px;overflow:hidden;}
-.intro-line{display:block;font-size:clamp(38px,9vw,130px);font-weight:400;color:var(--nqb);line-height:.94;letter-spacing:-0.04em;text-transform:uppercase;opacity:0;transform:translateY(50px);transition:opacity .6s,transform .6s cubic-bezier(.16,1,.3,1);}
-.intro-line.indent{padding-left:7vw;}
-.intro-line.vis{opacity:1;transform:none;}
-#intro .intro-line:nth-child(1){padding-left:32%;}
-#intro .intro-line:nth-child(2){padding-left:22%;}
-#intro .intro-line:nth-child(3){padding-left:34%;}
-#intro .intro-line:nth-child(4){padding-left:26%;}
-#intro .intro-line:nth-child(5){padding-left:20%;}
-#intro .intro-line:nth-child(6){padding-left:30%;}
-#intro .intro-line:nth-child(7){padding-left:38%;}
-.intro-line:nth-child(2){transition-delay:.05s;}.intro-line:nth-child(3){transition-delay:.1s;}.intro-line:nth-child(4){transition-delay:.15s;}.intro-line:nth-child(5){transition-delay:.2s;}.intro-line:nth-child(6){transition-delay:.25s;}.intro-line:nth-child(7){transition-delay:.3s;}
-.ws{display:inline-block;overflow:hidden;height:.94em;vertical-align:bottom;}
-.wsi{display:flex;flex-direction:column;animation:wswap 8s cubic-bezier(.77,0,.175,1) infinite;}
-.wsi span{height:.94em;display:flex;align-items:flex-end;}
-@keyframes wswap{0%,22%{transform:translateY(0)}27%,49%{transform:translateY(-.94em)}54%,76%{transform:translateY(-1.88em)}81%,99%{transform:translateY(-2.82em)}100%{transform:translateY(0)}}
-#strategy{background:var(--black);}
-.sb{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 8%;text-align:center;}
-.st{font-size:clamp(42px,6.5vw,96px);font-weight:400;color:var(--nqw);line-height:1.1;letter-spacing:-0.04em;max-width:1200px;text-align:center;opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s cubic-bezier(.16,1,.3,1);}
-.st.vis{opacity:1;transform:none;}
-.hard{display:inline-block;filter:blur(.75rem);transition:filter 3s cubic-bezier(.455,.03,.515,.955);}
-.hard:hover{filter:none;transition-duration:.15s;}
-.sow{min-height:100vh;background:var(--red);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 1.4s ease;}
-.sop{display:flex;align-items:center;justify-content:center;width:100%;}
-.sot{font-size:clamp(42px,6.5vw,96px);font-weight:400;color:var(--off);line-height:1.1;letter-spacing:-0.04em;text-align:center;max-width:1200px;width:90%;}
-#process{background:var(--black);}
-.plabel{padding:60px 5% 40px;font-size:clamp(40px,7vw,96px);font-weight:400;letter-spacing:-0.03em;line-height:.95;opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s cubic-bezier(.16,1,.3,1);}
-.plabel.vis{opacity:1;transform:none;}
-.pgrid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(247,246,244,.08);border-left:1px solid rgba(247,246,244,.08);}
-.pc{border-right:1px solid rgba(247,246,244,.08);border-bottom:1px solid rgba(247,246,244,.08);padding:60px 4%;opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s cubic-bezier(.16,1,.3,1);}
-.pc.vis{opacity:1;transform:none;}
-.pc:nth-child(2){transition-delay:.08s;}.pc:nth-child(3){transition-delay:.16s;}.pc:nth-child(4){transition-delay:.24s;}
-.pn{font-size:12px;font-weight:400;letter-spacing:.14em;color:rgba(247,246,244,.3);text-transform:uppercase;display:block;margin-bottom:24px;}
-.pc h3{font-size:clamp(22px,2.8vw,38px);font-weight:500;line-height:1.05;letter-spacing:-0.025em;margin-bottom:20px;}
-.pc p{font-size:15px;line-height:1.75;color:rgba(247,246,244,.5);}
-#works{background:var(--black);padding:0;}
-.wh{padding:60px 5% 16px;font-size:12px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:rgba(247,246,244,.35);}
-.wlist{border-top:1px solid rgba(247,246,244,.1);}
-.wl{display:block;text-decoration:none;cursor:none;border-bottom:1px solid rgba(247,246,244,.1);overflow:hidden;opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s cubic-bezier(.16,1,.3,1);position:relative;}
-.wl.vis{opacity:1;transform:none;}
-.wl:nth-child(2){transition-delay:.06s;}.wl:nth-child(3){transition-delay:.12s;}.wl:nth-child(4){transition-delay:.18s;}
-.wtrack{display:flex;flex-direction:column;transition:transform .45s cubic-bezier(.76,0,.24,1);width:100%;}
-.wl:hover .wtrack{transform:translateY(-50%);}
-.wli{padding:22px 5%;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;height:var(--row-h,88px);box-sizing:border-box;}
-.wli2{padding:22px 5%;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;height:var(--row-h,88px);box-sizing:border-box;}
-.wt{font-size:clamp(28px,5.5vw,80px);font-weight:400;color:var(--nqw);line-height:1.05;letter-spacing:-0.03em;}
-.wd{font-size:14px;color:rgba(247,246,244,.4);letter-spacing:.04em;text-align:right;}
-.wli2 .wt{color:var(--red);}.wli2 .wd{color:rgba(232,56,13,.5);}
-#services{background:var(--black);}
-.slabel{padding:80px 5% 40px;font-size:clamp(40px,7vw,96px);font-weight:400;letter-spacing:-0.03em;line-height:.95;opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s cubic-bezier(.16,1,.3,1);}
-.slabel.vis{opacity:1;transform:none;}
-.stabs{display:flex;border-top:1px solid rgba(247,246,244,.1);border-left:1px solid rgba(247,246,244,.1);min-height:520px;}
-.stab{flex:1;border-right:1px solid rgba(247,246,244,.1);border-bottom:1px solid rgba(247,246,244,.1);cursor:none;overflow:hidden;position:relative;transition:flex .5s cubic-bezier(.76,0,.24,1);display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.stab.open{flex:4;}
-.stab-h{writing-mode:vertical-rl;transform:rotate(180deg);font-size:clamp(14px,2vmin,28px);font-weight:400;letter-spacing:-0.02em;color:var(--nqw);white-space:nowrap;transition:opacity .2s;padding:20px 0;}
-.stab.open .stab-h{opacity:0;pointer-events:none;}
-.stab-n{position:absolute;top:16px;font-size:11px;font-weight:400;letter-spacing:.12em;color:rgba(247,246,244,.3);}
-.stab-b{position:absolute;inset:0;padding:48px 36px;display:flex;flex-direction:column;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s .1s;overflow-y:auto;}
-.stab.open .stab-b{opacity:1;pointer-events:all;}
-.stab-bn{font-size:11px;font-weight:400;letter-spacing:.14em;color:var(--red);text-transform:uppercase;margin-bottom:14px;}
-.stab-b h3{font-size:clamp(18px,2.2vw,30px);font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin-bottom:14px;}
-.stab-b hr{border:none;border-top:1px solid rgba(247,246,244,.12);margin-bottom:14px;}
-.stab-b ul{list-style:none;}
-.stab-b li{font-size:13px;line-height:2;color:rgba(247,246,244,.5);border-bottom:1px solid rgba(247,246,244,.07);}
-#contact{background:var(--nqw);min-height:100vh;padding:80px 5% 0;display:flex;flex-direction:column;}
-.cpw{margin-bottom:60px;height:1.2em;overflow:hidden;}
-.cp{font-size:clamp(16px,2.2vw,28px);font-weight:400;color:var(--nqb);line-height:1.2;letter-spacing:-0.01em;display:block;}
-.cm{flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:60px;}
-.cl{font-size:14px;color:rgba(28,28,28,.45);margin-bottom:10px;}
-.ca{font-size:clamp(54px,10vw,140px);font-weight:800;letter-spacing:-0.04em;line-height:.88;color:var(--nqb);text-decoration:none;display:inline-flex;align-items:baseline;}
-.cat{color:rgba(28,28,28,.13);transition:color .4s;}
-.ca:hover .cat{color:rgba(28,28,28,.4);}
-.banner{background:var(--nqb);padding:18px 0;overflow:hidden;white-space:nowrap;}
-.bt{display:inline-flex;gap:0;animation:marquee 50s linear infinite;}
-.bi{display:inline-flex;align-items:center;gap:20px;padding:0 20px;}
-.btx{font-size:12px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,246,244,.5);}
-.bd{width:5px;height:5px;border-radius:50%;background:rgba(247,246,244,.4);flex-shrink:0;}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@media(max-width:768px){nav,#hero{padding-left:5%;padding-right:5%;}#menuLeft,#menuRight{width:100%;}#menuLeft{transform:translateY(-100%);}#menuRight{display:none;}#menuWrap.open #menuLeft{transform:none;}.pgrid{grid-template-columns:1fr 1fr;}.stabs{flex-direction:column;}.stab{min-height:60px;}.stab.open{flex:none;min-height:400px;}.stab-h{writing-mode:horizontal-tb;transform:none;}}
-@media(max-width:480px){.pgrid{grid-template-columns:1fr;}}
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'">
+    <title>Site not found &middot; GitHub Pages</title>
+    <style type="text/css" media="screen">
+      body {
+        background-color: #f1f1f1;
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
 
+      .container { margin: 50px auto 40px auto; width: 600px; text-align: center; }
 
+      a { color: #4183c4; text-decoration: none; }
+      a:hover { text-decoration: underline; }
 
-.wl{position:relative;}
-:root{--row-h:clamp(70px,8vw,120px);}
+      h1 { width: 800px; position:relative; left: -100px; letter-spacing: -1px; line-height: 60px; font-size: 60px; font-weight: 100; margin: 0px 0 50px 0; text-shadow: 0 1px 0 #fff; }
+      p { color: rgba(0, 0, 0, 0.5); margin: 20px 0; line-height: 1.6; }
 
-.wl{height:var(--row-h);overflow:hidden;transition:height .5s cubic-bezier(.76,0,.24,1),opacity .6s,transform .6s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;}
-.wl:hover{height:calc(var(--row-h) + clamp(200px,30vw,480px));}
-.wimg{
-  width:calc(100% - 10%);
-  max-width:100%;
-  margin:0 5% 0;
-  height:clamp(200px,28vw,440px);
-  background-size:cover;
-  background-position:center top;
-  opacity:0;
-  transition:opacity .4s ease .2s;
-  border-radius:4px;
-  flex-shrink:0;
-  overflow:hidden;
-}
-.wl:hover .wimg{opacity:1;}
+      ul { list-style: none; margin: 25px 0; padding: 0; }
+      li { display: table-cell; font-weight: bold; width: 1%; }
 
-  25%{background:#CC3209;}
-  50%{background:#F0501E;}
-  75%{background:#B82D08;}
-  100%{background:#E8380D;}
-}
-@keyframes heroMorph{
-  0%{background:#E8380D;}
-  16%{background:#E8820D;}
-  32%{background:#D4C40A;}
-  48%{background:#0A8FD4;}
-  64%{background:#7B0AD4;}
-  80%{background:#D40A4A;}
-  100%{background:#E8380D;}
-}
-</style>
-</head>
-<body>
-<div id="curDot" class="cur"></div>
-<div id="curRing" class="cur"></div>
-<div id="menuWrap">
-  <div id="menuLeft">
-    <div class="mlink-mask"><a class="mlink" href="#intro" onclick="closeMenu()">About</a></div>
-    <div class="mlink-mask"><a class="mlink" href="#process" onclick="closeMenu()">Process</a></div>
-    <div class="mlink-mask"><a class="mlink" href="#works" onclick="closeMenu()">Work</a></div>
-    <div class="mlink-mask"><a class="mlink" href="#services" onclick="closeMenu()">Services</a></div>
-    <div class="mlink-mask"><a class="mlink" href="#contact" onclick="closeMenu()">Contact</a></div>
-  </div>
-  <div id="menuRight">
-    <div class="mr-top"><a href="tel:+61200000000">+61 02 0000 0000</a><a href="mailto:hello@hplush.co">hello@hplush.co</a><p>If in doubt, reach out.</p></div>
-    <div>
-      <div class="mr-sm"><a href="#" class="mr-sl">instagram</a></div>
-      <div class="mr-sm"><a href="#" class="mr-sl">linkedin</a></div>
-      <div class="mr-sm"><a href="#" class="mr-sl">behance</a></div>
-      <p class="mr-copy">&copy; H+H 2024</p>
+      .logo { display: inline-block; margin-top: 35px; }
+      .logo-img-2x { display: none; }
+      @media
+      only screen and (-webkit-min-device-pixel-ratio: 2),
+      only screen and (   min--moz-device-pixel-ratio: 2),
+      only screen and (     -o-min-device-pixel-ratio: 2/1),
+      only screen and (        min-device-pixel-ratio: 2),
+      only screen and (                min-resolution: 192dpi),
+      only screen and (                min-resolution: 2dppx) {
+        .logo-img-1x { display: none; }
+        .logo-img-2x { display: inline-block; }
+      }
+
+      #suggestions {
+        margin-top: 35px;
+        color: #ccc;
+      }
+      #suggestions a {
+        color: #666666;
+        font-weight: 200;
+        font-size: 14px;
+        margin: 0 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+
+      <h1>404</h1>
+      <p><strong>There isn't a GitHub Pages site here.</strong></p>
+
+      <p>
+        If you're trying to publish one,
+        <a href="https://help.github.com/pages/">read the full documentation</a>
+        to learn how to set up <strong>GitHub Pages</strong>
+        for your repository, organization, or user account.
+      </p>
+
+      <div id="suggestions">
+        <a href="https://githubstatus.com">GitHub Status</a> &mdash;
+        <a href="https://twitter.com/githubstatus">@githubstatus</a>
+      </div>
+
+      <a href="/" class="logo logo-img-1x">
+        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMTZCRDY3REIzRjAxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMTZCRDY3RUIzRjAxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdCQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjdDQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+SM9MCAAAA+5JREFUeNrEV11Ik1EY3s4+ddOp29Q5b0opCgKFsoKoi5Kg6CIhuwi6zLJLoYLopq4qsKKgi4i6CYIoU/q5iDAKs6syoS76IRWtyJ+p7cdt7sf1PGOD+e0c3dygAx/67ZzzPM95/877GYdHRg3ZjMXFxepQKNS6sLCwJxqNNuFpiMfjVs4ZjUa/pmmjeD6VlJS8NpvNT4QQ7mxwjSsJiEQim/1+/9lgMHgIr5ohuxG1WCw9Vqv1clFR0dCqBODElV6v90ogEDjGdYbVjXhpaendioqK07CIR7ZAqE49PT09BPL2PMgTByQGsYiZlQD4uMXtdr+JxWINhgINYhGT2MsKgMrm2dnZXgRXhaHAg5jEJodUAHxux4LudHJE9RdEdA+i3Juz7bGHe4mhE9FNrgwBCLirMFV9Okh5eflFh8PR5nK5nDabrR2BNJlKO0T35+Li4n4+/J+/JQCxhmu5h3uJoXNHPbmWZAHMshWB8l5/ipqammaAf0zPDDx1ONV3vurdidqwAQL+pEc8sLcAe1CCvQ3YHxIW8Pl85xSWNC1hADDIv0rIE/o4J0k3kww4xSlwIhcq3EFFOm7KN/hUGOQkt0CFa5WpNJlMvxBEz/IVQAxg/ZRZl9wiHA63yDYieM7DnLP5CiAGsC7I5sgtYKJGWe2A8seFqgFJrJjEPY1Cn3pJ8/9W1e5VWsFDTEmFrBcoDhZJEQkXuhICMyKpjhahqN21hRYATKfUOlDmkygrR4o4C0VOLGJKrOITKB4jijzdXygBKixyC5TDQdnk/Pz8qRw6oOWGlsTKGOQW6OH6FBWsyePxdOXLTgxiyebILZCjz+GLgMIKnXNzc49YMlcRdHXcSwxFVgTInQhC9G33UhNoJLuqq6t345p9y3eUy8OTk5PjAHuI9uo4b07FBaOhsu0A4Unc+T1TU1Nj3KsSSE5yJ65jqF2DDd8QqWYmAZrIM2VlZTdnZmb6AbpdV9V6ec9znf5Q7HjYumdRE0JOp3MjitO4SFa+cZz8Umqe3TCbSLvdfkR/kWDdNQl5InuTcysOcpFT35ZrbBxx4p3JAHlZVVW1D/634VRt+FvLBgK/v5LV9WS+10xMTEwtRw7XvqOL+e2Q8V3AYIOIAXQ26/heWVnZCVfcyKHg2CBgTpmPmjYM8l24GyaUHyaIh7XwfR9ErE8qHoDfn2LTNAVC0HX6MFcBIP8Bi+6F6cdW/DICkANRfx99fEYFQ7Nph5i/uQiA214gno7K+guhaiKg9gC62+M8eR7XsBsYJ4ilam60Fb7r7uAj8wFyuwM1oIOWgfmDy6RXEEQzJMPe23DXrVS7rtyD3Df8z/FPgAEAzWU5Ku59ZAUAAAAASUVORK5CYII=">
+      </a>
+
+      <a href="/" class="logo logo-img-2x">
+        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEQUM1QkUxRUI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEQUM1QkUxRkI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdGQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjgwQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+hfPRaQAAB6lJREFUeNrsW2mM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">
+      </a>
     </div>
-  </div>
-</div>
-<div id="menuBar"><a href="#" class="mbar-logo">H+H</a><button id="menuCloseBtn" onclick="closeMenu()">close</button></div>
-<nav id="mainNav"><a href="#" class="nav-logo"><img class="logo-img" src="images/LOGO/H+H LOGO WHITE@2x.png" alt="H+H"></a><button id="menuOpenBtn" onclick="openMenu()">menu</button></nav>
-<section id="hero"><div class="hero-mask"><p class="hero-txt">Strategic,<br>Creative Solutions</p></div></section>
-<section id="intro">
-  <span class="intro-line">H+H IS A</span>
-  <span class="intro-line indent"><span class="ws"><span class="wsi"><span>BRANDING</span><span>CREATIVE</span><span>STRATEGIC</span><span>BRANDING</span></span></span></span>
-  <span class="intro-line">STUDIO DEDICATED</span>
-  <span class="intro-line indent">TO BUILDING BOLD,</span>
-  <span class="intro-line">ENGAGING BRANDS.</span>
-  <span class="intro-line">WITH STUDIOS IN</span>
-  <span class="intro-line">LONDON &amp; QUEENSTOWN.</span>
-</section>
-<section id="strategy">
-  <div class="sb"><p class="st">Truly great work requires strategy.</p></div>
-  <div class="sb"><p class="st">Without strategy, the difference between you and everyone else is <span class="hard">h</span><span class="hard">a</span><span class="hard">r</span><span class="hard">d</span> <span class="hard">t</span><span class="hard">o</span> <span class="hard">s</span><span class="hard">e</span><span class="hard">e</span></p></div>
-  <div class="sow" id="sow"><div class="sop" id="sop"><p class="sot" id="sot">We're here to help<br>you stand out.</p></div></div>
-</section>
-<section id="process">
-  <h2 class="plabel">The Process</h2>
-  <div class="pgrid">
-    <div class="pc"><span class="pn">01</span><h3>Research &amp;<br>Discovery</h3><p>We immerse ourselves in your business, your audience, and your competitive landscape. Workshops and conversations set the foundation for everything that follows.</p></div>
-    <div class="pc"><span class="pn">02</span><h3>Strategy &amp;<br>Creative Direction</h3><p>Strategy is the necessary ingredient for exceptional work. We establish an effective approach that enables positive transformation and a clear visual direction.</p></div>
-    <div class="pc"><span class="pn">03</span><h3>Design &amp;<br>Development</h3><p>This is where the magic happens. From brand identity to digital experiences, every touchpoint is crafted with precision — strong in execution as it is in concept.</p></div>
-    <div class="pc"><span class="pn">04</span><h3>Quality<br>Assurance</h3><p>We're here for the long haul. By handover, everything looks and feels just right. And if anything comes up, we're committed to flexibility and ongoing support.</p></div>
-  </div>
-</section>
-<section id="works">
-  <p class="wh">Select Works</p>
-  <div class="wlist">
-    <a href="#" class="wl">
-      <div class="wtrack"><a class="wli" href="work.html?p=ministry-of-sound" style="text-decoration:none;color:inherit;"><span class="wt">Ministry of Sound</span><span class="wd">Brand Identity · Art Direction</span></a><div class="wli2"><span class="wt">Ministry of Sound</span><span class="wd">Brand Identity · Art Direction</span></div></div>
-      <div class="wimg" style="background-image:url('images/works/Ministry of Sound/Ministry of Sound 1.jpg')"></div>
-    </a>
-    <a href="#" class="wl">
-      <div class="wtrack"><a class="wli" href="work.html?p=furf" style="text-decoration:none;color:inherit;"><span class="wt">FURF</span><span class="wd">Brand Strategy · Identity</span></a><div class="wli2"><span class="wt">FURF</span><span class="wd">Brand Strategy · Identity</span></div></div>
-      <div class="wimg" style="background-image:url('images/works/FURF/FURF1.jpg')"></div>
-    </a>
-    <a href="#" class="wl">
-      <div class="wtrack"><a class="wli" href="work.html?p=airbnb" style="text-decoration:none;color:inherit;"><span class="wt">Airbnb</span><span class="wd">Graphic Design · Brand Collateral</span></a><div class="wli2"><span class="wt">Airbnb</span><span class="wd">Graphic Design · Brand Collateral</span></div></div>
-      <div class="wimg" style="background-image:url('images/works/AIRBNB/DOOR SYSTEM HANDLE in location.bip.35.jpg')"></div>
-    </a>
-    <a href="#" class="wl">
-      <div class="wtrack"><a class="wli" href="work.html?p=selecon" style="text-decoration:none;color:inherit;"><span class="wt">Selecon</span><span class="wd">Brand Identity · Photography</span></a><div class="wli2"><span class="wt">Selecon</span><span class="wd">Brand Identity · Photography</span></div></div>
-      <div class="wimg" style="background-image:url('images/works/Selecon/Selecon Light Projection.jpg')"></div>
-    </a>
-    <a href="#" class="wl">
-      <div class="wtrack"><a class="wli" href="work.html?p=tend" style="text-decoration:none;color:inherit;"><span class="wt">TEND</span><span class="wd">Art Direction · Digital</span></a>
-      <a class="wli" href="work.html?p=twist" style="text-decoration:none;color:inherit;"><span class="wt">TWIST</span><span class="wd">Brand Identity · 3D Design</span></a>
-      <a class="wli" href="work.html?p=uncle-2" style="text-decoration:none;color:inherit;"><span class="wt">UNCLE 2</span><span class="wd">Brand Identity · Campaign</span></a>
-      <div class="wimg"><img src="images/works/UNCLE 2/Amphipods00001.jpeg" alt="UNCLE 2"></div>
-      <div class="wimg"><img src="images/works/TWIST/LED LIGHT V1.bip.16.jpg" alt="TWIST"></div><div class="wli2"><span class="wt">TEND</span><span class="wd">Art Direction · Digital</span></div></div>
-      <div class="wimg" style="background-image:url('images/works/TEND/1.jpg')"></div>
-    </a>
-  </div>
-</section>
-<section id="services">
-  <h2 class="slabel">Services</h2>
-  <div class="stabs">
-    <div class="stab" onclick="toggleTab(this)"><span class="stab-n">01</span><span class="stab-h">Brand Strategy</span><div class="stab-b"><div class="stab-bn">01 &mdash; Brand Strategy</div><h3>Strategy always<br>comes first</h3><hr><ul><li>Art Direction</li><li>Digital Strategy</li><li>Content Strategy</li><li>Research &amp; Discovery</li><li>Strategy Workshops</li><li>Personas &amp; Journey Mapping</li><li>Competitor Analysis</li></ul></div></div>
-    <div class="stab" onclick="toggleTab(this)"><span class="stab-n">02</span><span class="stab-h">Brand Development</span><div class="stab-b"><div class="stab-bn">02 &mdash; Brand Development</div><h3>Establishing<br>an Identity</h3><hr><ul><li>Brand Positioning</li><li>Brand Consultation</li><li>Brand Naming</li><li>Brand Guidelines</li><li>Tone of Voice</li><li>Audience Segmentation</li><li>Customer Journey Mapping</li></ul></div></div>
-    <div class="stab" onclick="toggleTab(this)"><span class="stab-n">03</span><span class="stab-h">Graphic Design</span><div class="stab-b"><div class="stab-bn">03 &mdash; Graphic Design</div><h3>Where it<br>all began</h3><hr><ul><li>Print/Editorial Design</li><li>Logo Design</li><li>Brand Collateral</li><li>Report Design</li><li>Template Design</li><li>Finished Artwork</li><li>Typography</li></ul></div></div>
-    <div class="stab" onclick="toggleTab(this)"><span class="stab-n">04</span><span class="stab-h">Web &amp; Digital</span><div class="stab-b"><div class="stab-bn">04 &mdash; Web &amp; Digital</div><h3>Bespoke Digital<br>Experiences</h3><hr><ul><li>UI/UX/CX Design</li><li>Sitemaps &amp; Wireframing</li><li>Rapid Prototyping</li><li>CMS Template Design</li><li>E-Commerce</li><li>Webflow Development</li><li>Accessibility Audits</li></ul></div></div>
-    <div class="stab" onclick="toggleTab(this)"><span class="stab-n">05</span><span class="stab-h">Web Development</span><div class="stab-b"><div class="stab-bn">05 &mdash; Web Development</div><h3>Creative<br>Development</h3><hr><ul><li>No-Code Development</li><li>Webflow CMS &amp; eCommerce</li><li>HTML, CSS &amp; JS</li><li>Tailwind &amp; Sass</li><li>React &amp; Next.js</li><li>Node &amp; Express</li></ul></div></div>
-    <div class="stab" onclick="toggleTab(this)"><span class="stab-n">06</span><span class="stab-h">Marketing &amp; Content</span><div class="stab-b"><div class="stab-bn">06 &mdash; Marketing &amp; Content</div><h3>Reaching your<br>Customers</h3><hr><ul><li>EDM Design &amp; Templates</li><li>Social Media Assets</li><li>Copywriting</li><li>Campaign Design</li><li>Marketing Campaigns</li><li>SEO</li></ul></div></div>
-  </div>
-</section>
-<section id="contact">
-  <div class="cpw"><span class="cp" id="cp">Project in mind?</span></div>
-  <div class="cm"><p class="cl">Just say</p><a href="mailto:hello@hplush.co" class="ca">hello<span class="cat">@hplush.co</span></a></div>
-  <div class="banner"><div class="bt">
-    <div class="bi"><span class="bd"></span><span class="btx">hello@hplush.co</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">(+61) 02 0000 0000</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">Sydney, Australia</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx" id="st1">Available</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">hello@hplush.co</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">(+61) 02 0000 0000</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">Sydney, Australia</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx" id="st2">Available</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">hello@hplush.co</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">(+61) 02 0000 0000</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">Sydney, Australia</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">Available</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">hello@hplush.co</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">(+61) 02 0000 0000</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">Sydney, Australia</span></div>
-    <div class="bi"><span class="bd"></span><span class="btx">Available</span></div>
-  </div></div>
-</section>
-<script>
-const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
-let mx=-100,my=-100,rx=-100,ry=-100,ca=false;
-dot.style.color='#E8380D'; ring.style.color='#E8380D';
-
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX; my=e.clientY;
-  if(!ca){ca=true;dot.style.opacity='1';ring.style.opacity='1';}
-});
-
-// Cursor: white on red/orange hero, orange everywhere else
-function updateCursorColor(){
-  let el=document.elementFromPoint(mx,my);
-  let bg='rgba(0,0,0,0)';
-  while(el&&el!==document.body){
-    bg=window.getComputedStyle(el).backgroundColor;
-    if(bg&&bg!=='rgba(0, 0, 0, 0)'&&bg!=='transparent')break;
-    el=el.parentElement;
-  }
-  if(!bg||bg==='rgba(0, 0, 0, 0)')bg=window.getComputedStyle(document.body).backgroundColor;
-  const m=bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  const isRed=m&&parseInt(m[1])>180&&parseInt(m[2])<100&&parseInt(m[3])<80;
-  dot.style.color=isRed?'#F7F4F0':'#E8380D';
-  ring.style.color=isRed?'#F7F4F0':'#E8380D';
-}
-function updateNavLogo(){
-  const nav=document.getElementById('mainNav');
-  if(!nav) return;
-  const nr=nav.getBoundingClientRect();
-  const x=nr.left+60, y=nr.bottom-4;
-  let el=document.elementFromPoint(x,y);
-  let bg='';
-  while(el&&el!==document.body){
-    bg=window.getComputedStyle(el).backgroundColor;
-    if(bg&&bg!=='rgba(0, 0, 0, 0)'&&bg!=='transparent')break;
-    el=el.parentElement;
-  }
-  if(!bg||bg==='rgba(0, 0, 0, 0)')bg=window.getComputedStyle(document.body).backgroundColor;
-  const m=bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  const isLight=m&&parseInt(m[1])>180&&parseInt(m[2])>170&&parseInt(m[3])>160;
-  nav.classList.toggle('on-light',isLight);
-}
-
-(function loop(){
-  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-  dot.style.left=mx+'px'; dot.style.top=my+'px';
-  ring.style.left=rx+'px'; ring.style.top=ry+'px';
-  updateCursorColor();
-  requestAnimationFrame(loop);
-})();
-
-document.querySelectorAll('a,button,.stab,.wl').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('chover'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('chover'));
-});
-
-// Menu
-const menuWrap=document.getElementById('menuWrap'),menuBar=document.getElementById('menuBar');
-function openMenu(){menuWrap.classList.add('open');menuBar.classList.add('vis');document.body.style.overflow='hidden';}
-function closeMenu(){menuWrap.classList.remove('open');menuBar.classList.remove('vis');document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
-
-// Nav dark mode on light sections
-const nav=document.getElementById('mainNav');
-window.addEventListener('scroll',()=>{
-  const y=window.scrollY+10;
-  let l=false;
-  ['intro','contact'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    if(y>=el.offsetTop&&y<el.offsetTop+el.offsetHeight)l=true;
-  });
-  nav.classList.toggle('dark',l);
-},{passive:true});
-
-// Scroll-triggered fade-in animations
-const ro=new IntersectionObserver(es=>{
-  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
-},{threshold:0.05,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.intro-line,.st,.plabel,.pc,.slabel,.wl').forEach(el=>ro.observe(el));
-
-// "We're here to help" section fade in
-const sow=document.getElementById('sow');
-window.addEventListener('scroll',()=>{
-  const r=sow.getBoundingClientRect();
-  const entered=Math.max(0,Math.min(1,(window.innerHeight-r.top)/window.innerHeight));
-  sow.style.opacity=Math.max(0,(entered-0.1)/0.5);
-},{passive:true});
-
-// Services accordion
-function toggleTab(t){
-  const o=t.classList.contains('open');
-  document.querySelectorAll('.stab').forEach(x=>x.classList.remove('open'));
-  if(!o)t.classList.add('open');
-}
-
-// Contact phrase rotator
-const phrases=['Project in mind?','Keen to collaborate?','Have a question?','Curious about costing?','Feel like a chat?','Want some advice?'];
-let pi=0; const pel=document.getElementById('cp');
-setInterval(()=>{
-  pel.style.cssText='transform:translateY(-110%);opacity:0;transition:transform .3s cubic-bezier(.76,0,.24,1),opacity .3s;';
-  setTimeout(()=>{
-    pi=(pi+1)%phrases.length;
-    pel.textContent=phrases[pi];
-    pel.style.cssText='transform:translateY(110%);opacity:0;transition:none;';
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      pel.style.cssText='transform:translateY(0);opacity:1;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .35s;';
-    }));
-  },320);
-},2600);
-
-// Sydney time
-function setSydTime(){
-  const t=new Date().toLocaleTimeString('en-AU',{timeZone:'Australia/Sydney',hour12:true,hour:'numeric',minute:'numeric'});
-  ['st1','st2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=t;});
-}
-setSydTime(); setInterval(setSydTime,60000);
-</script>
-</body>
+  </body>
 </html>
